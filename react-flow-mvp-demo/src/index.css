@@ -46,7 +46,10 @@
   --edge-config-menu-border: var(--border-color);
   
   /* Colors - Dark Theme (Default) */
-  --background-color: #0e1116;
+  --background-color: #101010;
+  --react-background: #101010;
+  --react-grid-dot: rgba(255, 255, 255, 0.12);
+  --react-grid-line: rgba(255, 255, 255, 0.1);
   --text-color: #ffffff;
   --widget-background: #161b22;
   --border-color: #30363d;
@@ -62,6 +65,9 @@
 /* Light Theme */
 body.light-theme {
   --background-color: #ffffff;
+  --react-background: #f6f8fa;
+  --react-grid-dot: rgba(0, 0, 0, 0.1);
+  --react-grid-line: rgba(0, 0, 0, 0.1);
   --text-color: #000000;
   --widget-background: #f0f0f0;
   --border-color: #d1d5da;
@@ -76,7 +82,10 @@ body.light-theme {
 
 /* Matterhorn Theme */
 body.matterhorn-theme {
-  --background-color: rgba(20, 20, 20, 0.8);
+  --background-color: rgba(32, 32, 32, 0.8);
+  --react-background: transparent;
+  --react-grid-dot: rgba(255, 255, 255, 0.3);
+  --react-grid-line: rgba(255, 255, 255, 0.15);
   --text-color: #ffffff;
   --widget-background: rgba(20, 20, 20, 0.8);
   --border-color: #30363d;
@@ -106,7 +115,26 @@ body {
 
 /* React Flow Overrides for Clean Look */
 .react-flow__pane {
-  background: transparent;
+  background-color: var(--react-background);
+  background-image: radial-gradient(circle, var(--react-grid-dot) 0.5px, transparent 0.5px);
+  background-size: 20px 20px;
+}
+
+/* React Flow Grid Pattern - Enhanced */
+.react-flow__pane.react-flow__pane-dotted,
+.react-flow__pane[data-pattern="dots"] {
+  background-color: var(--react-background);
+  background-image: radial-gradient(circle, var(--react-grid-dot) 0.5px, transparent 0.5px);
+  background-size: 20px 20px;
+}
+
+.react-flow__pane.react-flow__pane-lines,
+.react-flow__pane[data-pattern="lines"] {
+  background-color: var(--react-background);
+  background-image: 
+    linear-gradient(var(--react-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--react-grid-line) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 .react-flow__controls {
@@ -126,11 +154,11 @@ body {
 
 /* Matterhorn theme specific fixes */
 body.matterhorn-theme .react-flow__pane {
-  background: transparent !important;
+  background: var(--react-background) !important;
 }
 
 body.matterhorn-theme .flow-container {
-  background: transparent !important;
+  background: var(--react-background) !important;
 }
 
 /* Custom Node Styles */
@@ -380,6 +408,7 @@ body.matterhorn-theme .flow-container {
 .flow-container {
   height: calc(100vh - 60px);
   width: 100vw;
+  background: var(--react-background);
 }
 
 /* Node Resizer Styling */
