@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
+import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge, useReactFlow } from '@xyflow/react';
 
 interface EdgeData {
   color?: string;
@@ -22,6 +22,8 @@ const ConfigurableEdge: React.FC<EdgeProps<EdgeData>> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const { getViewport } = useReactFlow();
   const [edgeConfig, setEdgeConfig] = useState({
     color: data.color || 'var(--edge-color)',
     strokeWidth: data.strokeWidth || 2,
@@ -108,7 +110,15 @@ const ConfigurableEdge: React.FC<EdgeProps<EdgeData>> = ({
         >
           {/* Configuration Icon */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={(e) => {
+              const viewport = getViewport();
+              const rect = (e.target as HTMLElement).getBoundingClientRect();
+              setMenuPosition({
+                x: rect.left,
+                y: rect.bottom + 5
+              });
+              setIsMenuOpen(!isMenuOpen);
+            }}
             className="gear-button"
             style={{
               width: 'var(--edge-config-icon-size)',
@@ -131,14 +141,14 @@ const ConfigurableEdge: React.FC<EdgeProps<EdgeData>> = ({
             ⚙
           </button>
 
-          {/* Dropdown Menu - render as portal to document body */}
+          {/* Dropdown Menu - render as portal with proper screen positioning */}
           {isMenuOpen && createPortal(
             <div
               ref={menuRef}
               style={{
                 position: 'fixed',
-                top: `${labelY + 30}px`,
-                left: `${labelX - 70}px`,
+                top: `${menuPosition.y}px`,
+                left: `${menuPosition.x - 70}px`,
                 backgroundColor: 'var(--edge-config-menu-bg)',
                 border: '1px solid var(--edge-config-menu-border)',
                 borderRadius: 'var(--radius-medium)',
@@ -146,6 +156,7 @@ const ConfigurableEdge: React.FC<EdgeProps<EdgeData>> = ({
                 minWidth: '140px',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
                 zIndex: 999999,
+                pointerEvents: 'all',
               }}
             >
               {/* Color Options */}

@@ -28,17 +28,51 @@ interface WidgetData {
     trending?: string
     latest?: string
     field?: string
+    courseCode?: string
+    credits?: string
+    duration?: string
+    description?: string
+    topic?: string
+    milestoneTitle?: string
+    milestoneDate?: string
     messages?: Array<{
       sender: string
       subject: string
       time: string
       unread: boolean
     }>
+    professors?: Array<{
+      name: string
+      expertise: string
+      interest: string
+      availability: string
+    }>
     links: string[]
   }
 }
 
 const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
+  const getWidgetClass = () => {
+    switch (data.widgetType) {
+      case 'journey-start':
+        return 'milestone-start'
+      case 'journey-end':
+        return 'milestone-end'
+      case 'milestone-widget':
+        return 'milestone-submission'
+      case 'dissertation-milestone':
+        return 'milestone-dissertation'
+      case 'dissertation-topic':
+        return 'dissertation-special'
+      case 'course-widget':
+        return 'course-centered'
+      default:
+        return ''
+    }
+  }
+
+  const showCloseButton = data.widgetType === 'course-widget' || !!data.onClose;
+
   const renderContent = () => {
     switch (data.widgetType) {
       case 'academic-progress':
@@ -133,13 +167,90 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
       case 'survey-results-widget':
         return <SurveyResultsWidget theme={data.theme || 'dark-theme'} />
       
+      case 'journey-start':
+        return (
+          <>
+            <div className="milestone-label">START</div>
+            <div className="milestone-title">DBA in AI</div>
+            <div className="milestone-date">September 2024</div>
+          </>
+        )
+      
+      case 'journey-end':
+        return (
+          <>
+            <div className="milestone-label">HURRAY!</div>
+            <div className="milestone-title">DBA Completed</div>
+            <div className="milestone-date">June 2027</div>
+          </>
+        )
+      
+      case 'milestone-widget':
+        return (
+          <>
+            <div className="milestone-title">{data.content.milestoneTitle}</div>
+            <div className="milestone-date">{data.content.milestoneDate}</div>
+          </>
+        )
+      
+      case 'dissertation-milestone':
+        return (
+          <>
+            <div className="milestone-title">{data.content.milestoneTitle}</div>
+            <div className="milestone-date">{data.content.milestoneDate}</div>
+          </>
+        )
+      
+      case 'course-widget':
+        return (
+          <div className="widget-content">
+            <p className="bold-green">{data.content.credits}</p>
+            <p>{data.content.description}</p>
+            <div style={{ marginTop: '8px' }}>
+              <a href="#" className="nav-link" onClick={(e) => e.preventDefault()}>Details</a>
+              <a href="#" className="nav-link" onClick={(e) => e.preventDefault()} style={{ marginLeft: '8px' }}>Sign up</a>
+            </div>
+          </div>
+        )
+      
+      case 'potential-supervisors':
+        return (
+          <div className="widget-content">
+            {data.content.professors && data.content.professors.map((prof, idx) => (
+              <div key={idx} style={{ 
+                marginBottom: '8px', 
+                padding: '6px 8px', 
+                border: '1px solid var(--success-color)', 
+                borderRadius: '4px',
+                backgroundColor: 'rgba(34, 197, 94, 0.08)'
+              }}>
+                <div style={{ fontWeight: 600, fontSize: '11px', color: 'var(--success-color)' }}>
+                  {prof.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      
+      case 'dissertation-topic':
+        return (
+          <>
+            <div className="milestone-title" style={{ fontSize: '14px', marginBottom: '8px', textAlign: 'center', color: 'var(--text-color)', fontWeight: '600' }}>
+              {data.content.topic}
+            </div>
+            <div className="milestone-date" style={{ textAlign: 'center', fontSize: '11px' }}>
+              My Dissertation
+            </div>
+          </>
+        )
+      
       default:
         return null
     }
   }
 
   return (
-    <div className="widget-node">
+    <div className={`widget-node ${getWidgetClass()}`}>
       <NodeResizer 
         isVisible={selected}
         minWidth={200}
@@ -150,8 +261,8 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
       />
       
       {/* Close Button */}
-      {data.onClose && (
-        <button className="container-close-button" onClick={data.onClose}>
+      {showCloseButton && (
+        <button className="container-close-button" onClick={() => data.onClose && data.onClose()}>
           <img src="/swissi-close-x.svg" alt="Close" />
         </button>
       )}

@@ -101,6 +101,7 @@ body {
   font-family: var(--font-family-primary);
   background-color: var(--background-color);
   color: var(--text-color);
+  overflow: hidden;
 }
 
 /* React Flow Overrides for Clean Look */
@@ -141,7 +142,7 @@ body.matterhorn-theme .flow-container {
   width: 100%;
   height: auto;
   min-width: 200px;
-  min-height: 150px;
+  min-height: 80px;
   font-family: var(--font-family-primary);
   color: var(--text-color);
   box-sizing: border-box;
@@ -194,6 +195,51 @@ body.matterhorn-theme .flow-container {
   background-color: var(--hover-background);
   border-color: var(--accent-color);
   color: var(--accent-color);
+}
+
+/* Colored link classes for course categories */
+.nav-link.foundation {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.nav-link.foundation:hover {
+  background-color: rgba(34, 197, 94, 0.1);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.nav-link.specialization {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.nav-link.specialization:hover {
+  background-color: rgba(245, 158, 11, 0.1);
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.nav-link.advanced {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.nav-link.advanced:hover {
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.nav-link.research {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.nav-link.research:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
 }
 
 .bold-green {
@@ -326,12 +372,13 @@ body.matterhorn-theme .flow-container {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
+  user-select: none;
 }
 
 
 /* React Flow Canvas Container */
 .flow-container {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 60px);
   width: 100vw;
 }
 
@@ -827,11 +874,21 @@ body.matterhorn-theme .flow-container {
   color: var(--text-color);
 }
 
-.drag-over-glow {
-  box-shadow: 0 0 20px rgba(88, 166, 255, 0.8) !important;
-  border: 2px solid rgba(88, 166, 255, 0.6) !important;
+.widget-node.drag-over-glow {
+  animation: drag-over-pulse 1.5s ease-in-out infinite !important;
   transform: scale(1.02) !important;
-  transition: all 0.2s ease-in-out !important;
+  transition: transform 0.2s ease-in-out !important;
+}
+
+@keyframes drag-over-pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(88, 166, 255, 0.6);
+    border: 2px solid rgba(88, 166, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(88, 166, 255, 0.9);
+    border: 2px solid rgba(88, 166, 255, 0.8);
+  }
 }
 
 /* Remove React Flow selection outline - comprehensive approach */
@@ -926,4 +983,121 @@ body.matterhorn-theme .flow-container {
   to {
     stroke-dashoffset: -10;
   }
+}
+
+/* Milestone Widget Classes - Applied directly to widget-node */
+.widget-node.milestone-start {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+  border: 2px solid var(--success-color) !important;
+  min-width: 160px;
+  min-height: 120px;
+  width: 160px !important;
+  height: 120px !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.widget-node.milestone-end {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+  border: 2px solid var(--warning-color) !important;
+  min-width: 160px;
+  min-height: 120px;
+  width: 160px !important;
+  height: 120px !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.widget-node.milestone-submission {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+  border: 2px solid #8b5cf6 !important;
+  min-width: 160px;
+  min-height: 120px;
+  width: 160px !important;
+  height: 120px !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.widget-node.milestone-dissertation {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+  border: 2px solid #3b82f6 !important;
+  min-width: 160px;
+  min-height: 120px;
+  width: 160px !important;
+  height: 120px !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.milestone-label {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.milestone-start .milestone-label {
+  color: var(--success-color);
+}
+
+.milestone-end .milestone-label {
+  color: var(--warning-color);
+}
+
+.milestone-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 6px;
+}
+
+.milestone-date {
+  font-size: 10px;
+  color: var(--muted-text);
+  font-weight: 500;
+}
+
+/* Centered Course Widget Class */
+.widget-node.course-centered {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.widget-node.course-centered .widget-title {
+  margin-bottom: var(--space-xs);
+}
+
+/* Special Dissertation Topic Widget - Huge Milestone */
+.widget-node.dissertation-special {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+  border: 3px solid #ffd700 !important;
+  min-width: 200px;
+  min-height: 160px;
+  width: 200px !important;
+  height: 160px !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  transform: scale(1.02);
 }

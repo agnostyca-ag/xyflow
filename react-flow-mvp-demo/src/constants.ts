@@ -111,7 +111,7 @@ export const WORKSPACES = {
       {
         id: 'academic-progress',
         type: 'widget',
-        position: { x: 100, y: 100 },
+        position: { x: 50, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'academic-progress',
@@ -126,7 +126,7 @@ export const WORKSPACES = {
       {
         id: 'my-classes',
         type: 'widget',
-        position: { x: 400, y: 100 },
+        position: { x: 350, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'my-classes',
@@ -141,7 +141,7 @@ export const WORKSPACES = {
       {
         id: 'inbox',
         type: 'widget',
-        position: { x: 100, y: 350 },
+        position: { x: 50, y: 300 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'inbox',
@@ -159,7 +159,7 @@ export const WORKSPACES = {
       {
         id: 'calendar',
         type: 'widget',
-        position: { x: 700, y: 100 },
+        position: { x: 650, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'calendar',
@@ -170,25 +170,11 @@ export const WORKSPACES = {
             links: ['View Calendar', 'Add Event', 'Reminders', 'Sync External']
           }
         }
-      }
-    ] as Node[],
-    edges: [] as Edge[],
-    aiSuggestions: [
-      'Schedule next semester course registration',
-      'Track ECTS progress toward graduation',
-      'Review upcoming assignment deadlines',
-      'Plan study schedule for finals week'
-    ]
-  },
-  writing: {
-    id: 'writing',
-    name: 'Workspace 3', 
-    description: 'Academic writing, research papers, and publications',
-    nodes: [
+      },
       {
         id: 'dissertation',
         type: 'widget',
-        position: { x: 100, y: 100 },
+        position: { x: 350, y: 300 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'dissertation',
@@ -203,7 +189,7 @@ export const WORKSPACES = {
       {
         id: 'writing-tools',
         type: 'widget',
-        position: { x: 400, y: 100 },
+        position: { x: 650, y: 300 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'writing-tools',
@@ -218,7 +204,7 @@ export const WORKSPACES = {
       {
         id: 'publications',
         type: 'widget',
-        position: { x: 700, y: 100 },
+        position: { x: 950, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'publications',
@@ -229,14 +215,508 @@ export const WORKSPACES = {
             links: ['Submit Paper', 'Track Reviews', 'Co-Authors', 'Conferences']
           }
         }
-      }
+      },
     ] as Node[],
     edges: [] as Edge[],
     aiSuggestions: [
-      'Continue Chapter 4 methodology draft',
-      'Find potential co-authors for next publication', 
-      'Submit paper to IEEE conference deadline',
-      'Generate citation analysis for literature review'
+      'Schedule next semester course registration',
+      'Track ECTS progress toward graduation',
+      'Review upcoming assignment deadlines',
+      'Plan study schedule for finals week'
+    ]
+  },
+  writing: {
+    id: 'writing',
+    name: 'Workspace 3', 
+    description: 'DBA in AI - Course Planning and Journey Visualization',
+    nodes: [
+      // Journey Start
+      {
+        id: 'journey-start',
+        type: 'widget',
+        position: { x: 50, y: 50 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'journey-start',
+          title: '',
+          content: { links: [] }
+        }
+      },
+      
+      // Foundation Courses (Year 1)
+      {
+        id: 'ai-fundamentals',
+        type: 'widget',
+        position: { x: 80, y: 300 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'AI Fundamentals',
+          content: {
+            courseCode: 'AI Fundamentals',
+            credits: '3 ECTS',
+            description: 'Core AI concepts, algorithms',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'research-methods',
+        type: 'widget',
+        position: { x: 300, y: 300 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Research Methods',
+          content: {
+            courseCode: 'Research Methods',
+            credits: '4 ECTS',
+            description: 'Quantitative, qualitative methods',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'machine-learning',
+        type: 'widget',
+        position: { x: 520, y: 300 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Machine Learning',
+          content: {
+            courseCode: 'Machine Learning',
+            credits: '4 ECTS',
+            description: 'Algorithms, supervised learning',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'data-science',
+        type: 'widget',
+        position: { x: 740, y: 300 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Data Science',
+          content: {
+            courseCode: 'Data Science',
+            credits: '3 ECTS',
+            description: 'Big data, analytics, visualization',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'ethics-ai',
+        type: 'widget',
+        position: { x: 960, y: 300 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'AI Ethics',
+          content: {
+            courseCode: 'AI Ethics',
+            credits: '2 ECTS',
+            description: 'Ethical AI, societal impact',
+            links: []
+          }
+        }
+      },
+      
+      // Specialization Courses (Year 2)
+      {
+        id: 'deep-learning',
+        type: 'widget',
+        position: { x: 80, y: 480 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Deep Learning',
+          content: {
+            courseCode: 'Deep Learning',
+            credits: '4 ECTS',
+            description: 'Neural networks, CNNs, RNNs',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'nlp-advanced',
+        type: 'widget',
+        position: { x: 300, y: 480 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Natural Language Processing',
+          content: {
+            courseCode: 'NLP',
+            credits: '3 ECTS',
+            description: 'Language models, text processing',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'computer-vision',
+        type: 'widget',
+        position: { x: 520, y: 480 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Computer Vision',
+          content: {
+            courseCode: 'Computer Vision',
+            credits: '3 ECTS',
+            description: 'Image recognition, object detection',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'reinforcement-learning',
+        type: 'widget',
+        position: { x: 740, y: 480 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Reinforcement Learning',
+          content: {
+            courseCode: 'Reinforcement Learning',
+            credits: '4 ECTS',
+            description: 'Agent learning, Q-learning',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'ai-business',
+        type: 'widget',
+        position: { x: 960, y: 480 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'AI in Business',
+          content: {
+            courseCode: 'AI in Business',
+            credits: '3 ECTS',
+            description: 'Strategic AI implementation',
+            links: []
+          }
+        }
+      },
+      
+      // Advanced Courses (Year 3)
+      {
+        id: 'explainable-ai',
+        type: 'widget',
+        position: { x: 80, y: 660 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Explainable AI',
+          content: {
+            courseCode: 'Explainable AI',
+            credits: '3 ECTS',
+            description: 'AI transparency, interpretability',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'federated-learning',
+        type: 'widget',
+        position: { x: 300, y: 660 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Federated Learning',
+          content: {
+            courseCode: 'Federated Learning',
+            credits: '4 ECTS',
+            description: 'Distributed ML, privacy',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'ai-governance',
+        type: 'widget',
+        position: { x: 520, y: 660 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'AI Governance',
+          content: {
+            courseCode: 'AI Governance',
+            credits: '2 ECTS',
+            description: 'Policy frameworks, regulation',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'quantum-ai',
+        type: 'widget',
+        position: { x: 740, y: 660 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Quantum AI',
+          content: {
+            courseCode: 'Quantum AI',
+            credits: '3 ECTS',
+            description: 'Quantum computing in AI',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'ai-security',
+        type: 'widget',
+        position: { x: 960, y: 660 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'AI Security',
+          content: {
+            courseCode: 'AI Security',
+            credits: '3 ECTS',
+            description: 'Adversarial attacks, robustness',
+            links: []
+          }
+        }
+      },
+      
+      // Research & Dissertation Phase
+      {
+        id: 'dissertation-proposal',
+        type: 'widget',
+        position: { x: 1200, y: 300 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'dissertation-milestone',
+          title: '',
+          content: {
+            milestoneTitle: 'Research Proposal',
+            milestoneDate: 'Year 2',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'advanced-seminar',
+        type: 'widget',
+        position: { x: 200, y: 700 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Advanced Seminar',
+          content: {
+            courseCode: 'Advanced Seminar',
+            credits: '2 ECTS',
+            description: 'Current AI research trends',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'dissertation-research',
+        type: 'widget',
+        position: { x: 1380, y: 300 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'dissertation-milestone',
+          title: '',
+          content: {
+            milestoneTitle: 'Start Dissertation',
+            milestoneDate: 'Year 3',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'teaching-practicum',
+        type: 'widget',
+        position: { x: 400, y: 700 },
+        style: { width: 180 },
+        data: {
+          widgetType: 'course-widget',
+          title: 'Teaching Practicum',
+          content: {
+            courseCode: 'Teaching Practicum',
+            credits: '3 ECTS',
+            description: 'University teaching experience',
+            links: []
+          }
+        }
+      },
+      
+      // Doctoral Colloquia
+      {
+        id: 'doctoral-colloquium-1',
+        type: 'widget',
+        position: { x: 1200, y: 450 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'milestone-widget',
+          title: '',
+          content: {
+            milestoneTitle: 'Doctoral Colloquium I',
+            milestoneDate: 'Year 2',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'doctoral-colloquium-2',
+        type: 'widget',
+        position: { x: 1380, y: 450 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'milestone-widget',
+          title: '',
+          content: {
+            milestoneTitle: 'Doctoral Colloquium II',
+            milestoneDate: 'Year 3',
+            links: []
+          }
+        }
+      },
+      
+      // Milestone Widgets
+      {
+        id: 'submit-dissertation',
+        type: 'widget',
+        position: { x: 1200, y: 600 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'milestone-widget',
+          title: '',
+          content: {
+            milestoneTitle: 'Submit Dissertation',
+            milestoneDate: 'March 2027',
+            links: []
+          }
+        }
+      },
+      {
+        id: 'oral-defense',
+        type: 'widget',
+        position: { x: 1380, y: 600 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'milestone-widget',
+          title: '',
+          content: {
+            milestoneTitle: 'Oral Defense',
+            milestoneDate: 'May 2027',
+            links: []
+          }
+        }
+      },
+      
+      // Journey End
+      {
+        id: 'journey-end',
+        type: 'widget',
+        position: { x: 1400, y: 50 },
+        style: { width: 160, height: 120 },
+        data: {
+          widgetType: 'journey-end',
+          title: '',
+          content: { links: [] }
+        }
+      },
+      
+      // Dissertation Topic
+      {
+        id: 'dissertation-topic',
+        type: 'widget',
+        position: { x: 1200, y: 780 },
+        style: { width: 200, height: 160 },
+        data: {
+          widgetType: 'dissertation-topic',
+          title: '',
+          content: {
+            topic: 'Explainable AI in Healthcare Decision Making',
+            description: 'Focus on transparency and trust',
+            links: []
+          }
+        }
+      },
+      
+      // Interested Professors
+      {
+        id: 'interested-professors',
+        type: 'widget',
+        position: { x: 1420, y: 780 },
+        style: { width: 160, height: 140 },
+        data: {
+          widgetType: 'potential-supervisors',
+          title: 'Interested Professors',
+          badge: '4',
+          content: {
+            professors: [
+              {
+                name: 'Prof. Dr. S. Chen',
+                expertise: '',
+                interest: '',
+                availability: ''
+              },
+              {
+                name: 'Prof. Dr. M. Weber',
+                expertise: '',
+                interest: '',
+                availability: ''
+              },
+              {
+                name: 'Prof. Dr. L. Rodriguez',
+                expertise: '',
+                interest: '',
+                availability: ''
+              },
+              {
+                name: 'Prof. Dr. J. Liu',
+                expertise: '',
+                interest: '',
+                availability: ''
+              }
+            ],
+            links: ['Contact', 'Schedule']
+          }
+        }
+      }
+    ] as Node[],
+    edges: [
+      // Journey progression
+      { id: 'start-to-ai', source: 'journey-start', target: 'ai-fundamentals', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      
+      // Foundation to Specialization logical flow
+      { id: 'ai-to-ml', source: 'ai-fundamentals', target: 'machine-learning', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      { id: 'ml-to-dl', source: 'machine-learning', target: 'deep-learning', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      { id: 'dl-to-cv', source: 'deep-learning', target: 'computer-vision', type: 'configurable', sourceHandle: 'right-source', targetHandle: 'left-target' },
+      { id: 'ml-to-rl', source: 'machine-learning', target: 'reinforcement-learning', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      
+      // Research path
+      { id: 'research-to-proposal', source: 'research-methods', target: 'dissertation-proposal', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      { id: 'proposal-to-research', source: 'dissertation-proposal', target: 'dissertation-research', type: 'configurable', sourceHandle: 'right-source', targetHandle: 'left-target' },
+      
+      // Final milestones
+      { id: 'research-to-submit', source: 'dissertation-research', target: 'submit-dissertation', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      { id: 'submit-to-defense', source: 'submit-dissertation', target: 'oral-defense', type: 'configurable', sourceHandle: 'right-source', targetHandle: 'left-target' },
+      { id: 'defense-to-end', source: 'oral-defense', target: 'journey-end', type: 'configurable', sourceHandle: 'right-source', targetHandle: 'left-target' },
+      
+      // Dissertation process flow
+      { id: 'proposal-to-topic', source: 'dissertation-proposal', target: 'dissertation-topic', type: 'configurable', sourceHandle: 'bottom-source', targetHandle: 'top-target' },
+      { id: 'topic-to-professors', source: 'dissertation-topic', target: 'interested-professors', type: 'configurable', sourceHandle: 'right-source', targetHandle: 'left-target' }
+    ] as Edge[],
+    aiSuggestions: [
+      'Plan optimal course sequence based on prerequisites',
+      'Connect courses with logical learning progression', 
+      'Identify specialization tracks in AI domains',
+      'Schedule courses to balance workload across semesters'
     ]
   },
   discovery: {

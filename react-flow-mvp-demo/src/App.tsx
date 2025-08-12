@@ -112,9 +112,20 @@ function App() {
     // Switch to new workspace
     setCurrentWorkspace(newWorkspaceId)
     const newWorkspaceState = workspaceStates[newWorkspaceId]
-    setNodes(newWorkspaceState.nodes)
+    
+    // Add close function to all nodes when switching workspaces
+    const nodesWithClose = newWorkspaceState.nodes.map((node) => ({
+      ...node,
+      data: {
+        ...node.data,
+        theme: theme,
+        onClose: () => setNodes((nodes) => nodes.filter((n) => n.id !== node.id))
+      }
+    }))
+    
+    setNodes(nodesWithClose)
     setEdges(newWorkspaceState.edges)
-  }, [currentWorkspace, workspaceStates, setNodes, setEdges])
+  }, [currentWorkspace, workspaceStates, setNodes, setEdges, theme])
 
   const getBackgroundColor = () => {
     switch (theme) {

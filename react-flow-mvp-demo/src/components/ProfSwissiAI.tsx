@@ -131,8 +131,22 @@ const ProfSwissiAI: React.FC<ProfSwissiAIProps> = ({ activeWorkspace, theme }) =
     
     // Add mouse move listener during drag for context detection
     const handleMouseMove = (e: MouseEvent) => {
+      // Temporarily hide the dragging element to get element underneath
+      const draggingElement = document.querySelector('.ai-professor-icon-container');
+      const originalPointerEvents = draggingElement?.style.pointerEvents;
+      if (draggingElement) {
+        (draggingElement as HTMLElement).style.pointerEvents = 'none';
+      }
+      
       const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
       const widget = elementBelow?.closest('.widget-node');
+      
+      // Restore pointer events
+      if (draggingElement && originalPointerEvents !== undefined) {
+        (draggingElement as HTMLElement).style.pointerEvents = originalPointerEvents;
+      } else if (draggingElement) {
+        (draggingElement as HTMLElement).style.pointerEvents = '';
+      }
       
       // Clear all glows first
       document.querySelectorAll('.widget-node').forEach(w => w.classList.remove('drag-over-glow'));
