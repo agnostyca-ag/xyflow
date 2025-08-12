@@ -33,6 +33,18 @@
   /* Widget Sizing */
   --widget-initial-width: 260px;
   
+  /* Connection Handle Styling */
+  --handle-size: 12px;
+  --handle-color: var(--border-color);
+  --handle-hover-color: var(--accent-color);
+  
+  /* Connection Line Styling */
+  --edge-color: var(--border-color);
+  --edge-width: 2px;
+  --edge-config-icon-size: 16px;
+  --edge-config-menu-bg: var(--widget-background);
+  --edge-config-menu-border: var(--border-color);
+  
   /* Colors - Dark Theme (Default) */
   --background-color: #0e1116;
   --text-color: #ffffff;
@@ -224,11 +236,11 @@ body.matterhorn-theme .flow-container {
 
 @keyframes ai-pulse {
   0%, 100% {
-    box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
+    box-shadow: 0 0 12px rgba(88, 166, 255, 0.4);
     border-color: transparent;
   }
   50% {
-    box-shadow: 0 0 16px rgba(88, 166, 255, 0.6);
+    box-shadow: 0 0 20px rgba(88, 166, 255, 0.7);
     border-color: transparent;
   }
 }
@@ -483,4 +495,435 @@ body.matterhorn-theme .flow-container {
   opacity: 1;
   background-color: var(--hover-background);
   border-color: var(--accent-color);
+}
+
+/* Fixed AI Agent */
+.fixed-ai-agent {
+  transition: transform 0.2s ease-in-out;
+  user-select: none;
+}
+
+.fixed-ai-agent:hover {
+  transform: scale(1.05);
+}
+
+.fixed-ai-agent .ai-agent-node {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 75px;
+  animation: ai-pulse 5s ease-in-out infinite;
+}
+
+.fixed-ai-agent .ai-agent-node.dragging {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(88, 166, 255, 0.6);
+  animation: none;
+}
+
+/* Prof Swissi AI Component Styles - From MVP */
+.ai-agent-overlay {
+  position: fixed;
+  top: 200px;
+  right: 50px;
+  width: 420px;
+  min-width: 350px;
+  max-width: 600px;
+  min-height: 450px;
+  max-height: 80vh;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  resize: both;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-agent-overlay:hover {
+  cursor: move;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.ai-professor-icon-container {
+  position: fixed;
+  z-index: 1000;
+  background: transparent !important;
+}
+
+.ai-professor-icon {
+  width: 75px;
+  height: 75px;
+  background: transparent !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  user-select: none;
+  position: relative;
+  cursor: move;
+  animation: ai-pulse 5s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+}
+
+.ai-professor-icon .click-area {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  cursor: move;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  transition: transform 0.2s ease;
+}
+
+.ai-professor-icon .click-area img {
+  width: 55px;
+  height: 55px;
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.ai-professor-icon .click-area:hover {
+  transform: scale(1.05);
+}
+
+.ai-professor-icon:active {
+  transform: scale(0.95);
+}
+
+.ai-professor-icon-container.expanding {
+  animation: expandToChat 0.25s ease-in-out forwards;
+}
+
+@keyframes expandToChat {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: transparent;
+  border-bottom: none;
+  cursor: move;
+  user-select: none;
+}
+
+.ai-professor-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+
+.ai-professor-header-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.ai-professor-title {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.minimize-btn {
+  background: none;
+  border: none;
+  color: var(--muted-text);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.minimize-btn:hover {
+  background-color: var(--hover-background);
+  color: var(--text-color);
+}
+
+.ai-agent-content {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 350px;
+  overflow: hidden;
+}
+
+.professor-content-scrollable {
+  flex: 1;
+  min-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 4px;
+  margin-bottom: 20px;
+}
+
+.professor-greeting {
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.typing-effect {
+  color: var(--text-color);
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-action-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-button);
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+}
+
+.quick-action-btn:hover {
+  background-color: var(--hover-background);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.professor-input-area {
+  flex-shrink: 0;
+  padding-top: 16px;
+  background: var(--background-color);
+  margin-top: auto;
+}
+
+.professor-input {
+  width: 100%;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #f0f6fc;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  min-height: 50px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.professor-input:focus {
+  border-color: #58a6ff;
+  background: #21262d;
+}
+
+.light-theme .professor-input {
+  background: #f6f8fa;
+  border: 1px solid #d1d5da;
+  color: #24292f;
+}
+
+.light-theme .professor-input:focus {
+  border-color: #0969da;
+  background: #f6f8fa;
+}
+
+.matterhorn-theme .professor-input {
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.matterhorn-theme .professor-input:focus {
+  border-color: var(--accent-color);
+  background: var(--hover-background);
+}
+
+.professor-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding: 8px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+.input-action-btn {
+  background: none;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  flex: 1;
+  max-width: 60px;
+}
+
+.input-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #c9d1d9;
+}
+
+.light-theme .input-action-btn {
+  color: #586069;
+}
+
+.light-theme .input-action-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #24292f;
+}
+
+.matterhorn-theme .input-action-btn {
+  color: var(--muted-text);
+}
+
+.matterhorn-theme .input-action-btn:hover {
+  background: var(--hover-background);
+  color: var(--text-color);
+}
+
+.drag-over-glow {
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.8) !important;
+  border: 2px solid rgba(88, 166, 255, 0.6) !important;
+  transform: scale(1.02) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Remove React Flow selection outline - comprehensive approach */
+.react-flow__node.selected {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.react-flow__node.selected .widget-node {
+  outline: none !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+.react-flow__node.selected::before,
+.react-flow__node.selected::after {
+  display: none !important;
+}
+
+/* Target all possible React Flow selection classes */
+.react-flow__node.react-flow__node-widget.selected {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Remove outline from NodeResizer component */
+.react-flow__resize-control {
+  border: none !important;
+  outline: none !important;
+}
+
+.react-flow__resize-control.react-flow__resize-control-variant-line {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Force remove any blue border/outline */
+[class*="react-flow__node"].selected,
+[class*="react-flow__node"][data-selected="true"] {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.react-flow__node {
+  outline: none !important;
+}
+
+.react-flow__node:focus {
+  outline: none !important;
+}
+
+/* Close Button for Widgets */
+.container-close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.container-close-button:hover {
+  opacity: 1;
+}
+
+.container-close-button img {
+  width: 12px;
+  height: 12px;
+}
+
+/* Connection Handle Styling */
+.react-flow__handle {
+  transition: all 0.2s ease;
+}
+
+.react-flow__handle:hover {
+  opacity: 1 !important;
+  background-color: var(--handle-hover-color) !important;
+}
+
+/* Animated Edge Styling */
+@keyframes dashdraw {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -10;
+  }
 }

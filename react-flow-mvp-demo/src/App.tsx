@@ -9,25 +9,33 @@ import {
   Node,
   Edge,
   NodeTypes,
-  OnNodeDrag,
+  EdgeTypes,
   ReactFlowProvider,
   ReactFlowInstance,
   OnInit,
-  NodeResizer
+  addEdge,
+  Connection,
+  OnConnect
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 
 import WidgetNode from './components/WidgetNode'
 import AIAgentNode from './components/AIAgentNode'
+import ConfigurableEdge from './components/ConfigurableEdge'
 import ContextChatOverlay from './components/ContextChatOverlay'
 import FlyoutPanel from './components/FlyoutPanel'
 import WorkspaceSwitcher from './components/WorkspaceSwitcher'
-import { WORKSPACES, AI_AGENT_NODE, WorkspaceId } from './constants'
+import ProfSwissiAI from './components/ProfSwissiAI'
+import { WORKSPACES, WorkspaceId } from './constants'
 
-// Define custom node types
+// Define custom node and edge types
 const nodeTypes: NodeTypes = {
   widget: WidgetNode,
   aiAgent: AIAgentNode,
+}
+
+const edgeTypes: EdgeTypes = {
+  configurable: ConfigurableEdge,
 }
 
 const initialEdges: Edge[] = []
@@ -47,7 +55,7 @@ function App() {
     Object.keys(WORKSPACES).forEach((wsId) => {
       const workspaceId = wsId as WorkspaceId
       initialStates[workspaceId] = {
-        nodes: [...WORKSPACES[workspaceId].nodes, AI_AGENT_NODE],
+        nodes: [...WORKSPACES[workspaceId].nodes],
         edges: []
       }
     })
@@ -60,7 +68,6 @@ function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(workspaceStates[currentWorkspace].edges)
   
   const [contextChat, setContextChat] = useState<ContextChat>({ isOpen: false })
-  const [isDragging, setIsDragging] = useState(false)
   const [theme, setTheme] = useState('dark-theme')
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false)
   const reactFlowInstance = useRef<ReactFlowInstance | null>(null)
@@ -80,6 +87,20 @@ function App() {
       }
     }))
   }, [nodes, edges, currentWorkspace])
+
+  // Update widget nodes with current theme and close function
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          theme: theme,
+          onClose: () => setNodes((nodes) => nodes.filter((n) => n.id !== node.id))
+        }
+      }))
+    )
+  }, [theme, setNodes])
 
   // Handle workspace switching
   const handleWorkspaceChange = useCallback((newWorkspaceId: WorkspaceId) => {
@@ -123,90 +144,15 @@ function App() {
     reactFlowInstance.current = rfi
   }, [])
 
-  // Detect when AI agent is being dragged
-  const onNodeDragStart = useCallback((event: any, node: Node) => {
-    if (node.type === 'aiAgent') {
-      setIsDragging(true)
-      // Add visual feedback to all widget nodes
-      setNodes((nds) =>
-        nds.map((n) => ({
-          ...n,
-          className: n.type === 'widget' ? 'context-target' : undefined
-        }))
-      )
-    }
-  }, [setNodes])
-
-  // Handle AI agent drag - check for overlaps
-  const onNodeDrag: OnNodeDrag = useCallback((event, node) => {
-    if (node.type === 'aiAgent' && isDragging) {
-      // Find overlapping widget nodes
-      const overlappingWidget = nodes.find((n) => {
-        if (n.type !== 'widget') return false
-        
-        const distance = Math.sqrt(
-          Math.pow(node.position.x - n.position.x, 2) + 
-          Math.pow(node.position.y - n.position.y, 2)
-        )
-        
-        return distance < 150 // Overlap threshold
-      })
-
-      // Update visual feedback
-      setNodes((nds) =>
-        nds.map((n) => ({
-          ...n,
-          className: 
-            n.type === 'widget' && overlappingWidget?.id === n.id 
-              ? 'context-glow' 
-              : n.type === 'widget' 
-                ? 'context-target' 
-                : undefined
-        }))
-      )
-    }
-  }, [nodes, setNodes, isDragging])
-
-  // Handle AI agent drop - open contextual chat
-  const onNodeDragStop = useCallback((event: any, node: Node) => {
-    if (node.type === 'aiAgent') {
-      setIsDragging(false)
-      
-      // Find the widget we dropped on
-      const overlappingWidget = nodes.find((n) => {
-        if (n.type !== 'widget') return false
-        
-        const distance = Math.sqrt(
-          Math.pow(node.position.x - n.position.x, 2) + 
-          Math.pow(node.position.y - n.position.y, 2)
-        )
-        
-        return distance < 150
-      })
-
-      // Clear all visual feedback
-      setNodes((nds) =>
-        nds.map((n) => ({
-          ...n,
-          className: undefined
-        }))
-      )
-
-      // Open contextual chat if we found a target
-      if (overlappingWidget) {
-        console.log(`AI dropped on widget: ${overlappingWidget.data.title}`)
-        setContextChat({
-          isOpen: true,
-          targetWidget: overlappingWidget,
-          position: { x: event.clientX, y: event.clientY }
-        })
-      }
-    }
-  }, [nodes, setNodes])
-
   const closeContextChat = useCallback(() => {
     setContextChat({ isOpen: false })
   }, [])
+
+  // Handle new connections between widgets
+  const onConnect: OnConnect = useCallback((params: Connection) => {
+    const newEdge = { ...params, type: 'configurable' }
+    setEdges((eds) => addEdge(newEdge, eds))
+  }, [setEdges])
 
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
@@ -256,15 +202,14 @@ function App() {
       <ReactFlowProvider>
         <div className="flow-container">
           <ReactFlow
-            nodes={nodes.filter(node => node.type !== 'aiAgent')}
+            nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
             onInit={onInit}
-            onNodeDragStart={onNodeDragStart}
-            onNodeDrag={onNodeDrag}
-            onNodeDragStop={onNodeDragStop}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             fitView
             fitViewOptions={{ padding: 0.1 }}
             proOptions={{ hideAttribution: true }}
@@ -280,66 +225,11 @@ function App() {
           </ReactFlow>
         </div>
         
-        {/* Fixed Prof Swissi AI Agent */}
-        <div
-          className="fixed-ai-agent"
-          style={{
-            position: 'absolute',
-            top: '80px',
-            right: '50px',
-            zIndex: 100,
-            cursor: isDragging ? 'grabbing' : 'grab'
-          }}
-          draggable={true}
-          onDragStart={(e) => {
-            setIsDragging(true)
-            // Add visual feedback to all widget nodes
-            setNodes((nds) =>
-              nds.map((n) => ({
-                ...n,
-                className: n.type === 'widget' ? 'context-target' : undefined
-              }))
-            )
-          }}
-          onDragEnd={(e) => {
-            setIsDragging(false)
-            
-            // Check if dropped on any widget
-            const elements = document.elementsFromPoint(e.clientX, e.clientY)
-            const widgetElement = elements.find(el => el.closest('.widget-node'))
-            
-            if (widgetElement) {
-              const widgetNode = widgetElement.closest('[data-id]')
-              const widgetId = widgetNode?.getAttribute('data-id')
-              const targetWidget = nodes.find(n => n.id === widgetId)
-              
-              if (targetWidget) {
-                console.log(`AI dropped on widget: ${targetWidget.data.title}`)
-                setContextChat({
-                  isOpen: true,
-                  targetWidget: targetWidget,
-                  position: { x: e.clientX, y: e.clientY }
-                })
-              }
-            }
-
-            // Clear all visual feedback
-            setNodes((nds) =>
-              nds.map((n) => ({
-                ...n,
-                className: undefined
-              }))
-            )
-          }}
-        >
-          <div className={`ai-agent-node ${isDragging ? 'dragging' : ''}`}>
-            <img 
-              src="/swissi-icon-prof-swissi.svg" 
-              alt="Prof Swissi AI" 
-              style={{ width: '40px', height: '40px' }}
-            />
-          </div>
-        </div>
+        {/* Prof Swissi AI - Complete component from MVP */}
+        <ProfSwissiAI 
+          activeWorkspace={currentWorkspace}
+          theme={theme}
+        />
       </ReactFlowProvider>
 
       {contextChat.isOpen && contextChat.targetWidget && (

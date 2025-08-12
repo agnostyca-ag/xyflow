@@ -10,7 +10,7 @@ export const WORKSPACES = {
       {
         id: 'academic-progress',
         type: 'widget',
-        position: { x: 100, y: 100 },
+        position: { x: 270, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'academic-progress',
@@ -25,7 +25,7 @@ export const WORKSPACES = {
       {
         id: 'dissertation',
         type: 'widget',
-        position: { x: 400, y: 100 },
+        position: { x: 570, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'dissertation',
@@ -40,7 +40,7 @@ export const WORKSPACES = {
       {
         id: 'research-data',
         type: 'widget',
-        position: { x: 700, y: 100 },
+        position: { x: 870, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'research-data',
@@ -49,6 +49,48 @@ export const WORKSPACES = {
             datasets: '12 Active',
             analysis: 'In Progress',
             links: ['Data Analysis', 'Statistics', 'Export Results', 'Correlations']
+          }
+        }
+      },
+      {
+        id: 'survey-results-widget',
+        type: 'widget',
+        position: { x: 50, y: 250 },
+        style: { width: 500, height: 600 },
+        data: {
+          widgetType: 'survey-results-widget',
+          title: 'Comprehensive Survey Results',
+          theme: 'dark-theme',
+          content: {
+            links: []
+          }
+        }
+      },
+      {
+        id: 'chart-widget',
+        type: 'widget',
+        position: { x: 580, y: 250 },
+        style: { width: 450, height: 350 },
+        data: {
+          widgetType: 'chart-widget',
+          title: 'Performance Chart',
+          theme: 'dark-theme',
+          content: {
+            links: []
+          }
+        }
+      },
+      {
+        id: 'boxplot-widget',
+        type: 'widget',
+        position: { x: 1060, y: 250 },
+        style: { width: 550, height: 500 },
+        data: {
+          widgetType: 'boxplot-widget',
+          title: 'Statistical Analysis',
+          theme: 'dark-theme',
+          content: {
+            links: []
           }
         }
       }
@@ -244,16 +286,6 @@ export const WORKSPACES = {
   }
 } as const
 
-// AI Agent node that persists across all workspaces
-export const AI_AGENT_NODE: Node = {
-  id: 'ai-agent',
-  type: 'aiAgent',
-  position: { x: 900, y: 50 },
-  data: { 
-    label: 'Prof Swissi AI',
-    isMinimized: true 
-  },
-  draggable: true
-}
+// AI Agent is now a fixed overlay, no longer needed as a React Flow node
 
 export type WorkspaceId = keyof typeof WORKSPACES

@@ -1,10 +1,15 @@
 import React from 'react'
 import { NodeProps, Handle, Position, NodeResizer } from '@xyflow/react'
+import ChartWidget from './ChartWidget'
+import BoxplotWidget from './BoxplotWidget'
+import SurveyResultsWidget from './SurveyResultsWidget'
 
 interface WidgetData {
   widgetType: string
   title: string
   badge?: string
+  theme?: string
+  onClose?: () => void
   content: {
     ects?: string
     progress?: string
@@ -119,6 +124,15 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
           </div>
         )
       
+      case 'chart-widget':
+        return <ChartWidget theme={data.theme || 'dark-theme'} />
+      
+      case 'boxplot-widget':
+        return <BoxplotWidget theme={data.theme || 'dark-theme'} />
+      
+      case 'survey-results-widget':
+        return <SurveyResultsWidget theme={data.theme || 'dark-theme'} />
+      
       default:
         return null
     }
@@ -130,9 +144,55 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
         isVisible={selected}
         minWidth={200}
         minHeight={150}
+        color="transparent"
+        handleStyle={{ backgroundColor: 'transparent', border: 'none' }}
+        lineStyle={{ border: 'none', outline: 'none' }}
       />
       
-      <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
+      {/* Close Button */}
+      {data.onClose && (
+        <button className="container-close-button" onClick={data.onClose}>
+          <img src="/swissi-close-x.svg" alt="Close" />
+        </button>
+      )}
+      
+      {/* Connection handles - standard React Flow styling */}
+      <Handle 
+        type="target" 
+        position={Position.Top}
+        id="top-target"
+        style={{ 
+          width: 'var(--handle-size)',
+          height: 'var(--handle-size)',
+          backgroundColor: 'var(--handle-color)',
+          border: '2px solid var(--background-color)',
+          opacity: 0.6
+        }} 
+      />
+      <Handle 
+        type="target" 
+        position={Position.Left}
+        id="left-target"
+        style={{ 
+          width: 'var(--handle-size)',
+          height: 'var(--handle-size)',
+          backgroundColor: 'var(--handle-color)',
+          border: '2px solid var(--background-color)',
+          opacity: 0.6
+        }} 
+      />
+      <Handle 
+        type="target" 
+        position={Position.Right}
+        id="right-target"
+        style={{ 
+          width: 'var(--handle-size)',
+          height: 'var(--handle-size)',
+          backgroundColor: 'var(--handle-color)',
+          border: '2px solid var(--background-color)',
+          opacity: 0.6
+        }} 
+      />
       
       <h3 className="widget-title">
         {data.title}
@@ -160,7 +220,42 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
         ))}
       </div>
 
-      <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
+      <Handle 
+        type="source" 
+        position={Position.Bottom}
+        id="bottom-source"
+        style={{ 
+          width: 'var(--handle-size)',
+          height: 'var(--handle-size)',
+          backgroundColor: 'var(--handle-color)',
+          border: '2px solid var(--background-color)',
+          opacity: 0.6
+        }} 
+      />
+      <Handle 
+        type="source" 
+        position={Position.Left}
+        id="left-source"
+        style={{ 
+          width: 'var(--handle-size)',
+          height: 'var(--handle-size)',
+          backgroundColor: 'var(--handle-color)',
+          border: '2px solid var(--background-color)',
+          opacity: 0.6
+        }} 
+      />
+      <Handle 
+        type="source" 
+        position={Position.Right}
+        id="right-source"
+        style={{ 
+          width: 'var(--handle-size)',
+          height: 'var(--handle-size)',
+          backgroundColor: 'var(--handle-color)',
+          border: '2px solid var(--background-color)',
+          opacity: 0.6
+        }} 
+      />
     </div>
   )
 }
