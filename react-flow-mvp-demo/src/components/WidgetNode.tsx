@@ -3,6 +3,7 @@ import { NodeProps, Handle, Position, NodeResizer } from '@xyflow/react'
 import ChartWidget from './ChartWidget'
 import BoxplotWidget from './BoxplotWidget'
 import SurveyResultsWidget from './SurveyResultsWidget'
+import CalendarWidget from './CalendarWidget'
 
 interface WidgetData {
   widgetType: string
@@ -119,12 +120,7 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
         )
       
       case 'calendar':
-        return (
-          <div className="widget-content">
-            <p>{data.content.upcoming}</p>
-            <p>{data.content.events}</p>
-          </div>
-        )
+        return <CalendarWidget />
       
       case 'writing-tools':
         return (

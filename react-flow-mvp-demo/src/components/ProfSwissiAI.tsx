@@ -129,6 +129,8 @@ const ProfSwissiAI: React.FC<ProfSwissiAIProps> = ({ activeWorkspace, theme }) =
     console.log('Rnd drag started');
     setIsDragging(true);
     
+    let lastWidget: Element | null = null;
+    
     // Add mouse move listener during drag for context detection
     const handleMouseMove = (e: MouseEvent) => {
       // Temporarily hide the dragging element to get element underneath
@@ -139,7 +141,18 @@ const ProfSwissiAI: React.FC<ProfSwissiAIProps> = ({ activeWorkspace, theme }) =
       }
       
       const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
-      const widget = elementBelow?.closest('.widget-node');
+      let widget = elementBelow?.closest('.widget-node');
+      
+      // Special handling for calendar elements that might be deep in the DOM
+      if (!widget && elementBelow) {
+        // Check if we're over calendar-related elements
+        const calendarElement = elementBelow.closest('.custom-calendar') || 
+                               elementBelow.closest('.calendar-container') ||
+                               elementBelow.closest('.react-calendar');
+        if (calendarElement) {
+          widget = calendarElement.closest('.widget-node');
+        }
+      }
       
       // Restore pointer events
       if (draggingElement && originalPointerEvents !== undefined) {
@@ -148,16 +161,31 @@ const ProfSwissiAI: React.FC<ProfSwissiAIProps> = ({ activeWorkspace, theme }) =
         (draggingElement as HTMLElement).style.pointerEvents = '';
       }
       
-      // Clear all glows first
-      document.querySelectorAll('.widget-node').forEach(w => w.classList.remove('drag-over-glow'));
-      
-      if (widget) {
-        const widgetTitle = widget.querySelector('.widget-title')?.textContent;
-        console.log('Hovering over widget:', widgetTitle);
-        setDragOverWidget(widgetTitle || null);
-        widget.classList.add('drag-over-glow');
-      } else {
-        setDragOverWidget(null);
+      // Only update if the widget changed to prevent flickering
+      if (widget !== lastWidget) {
+        // Clear all glows first
+        document.querySelectorAll('.widget-node').forEach(w => w.classList.remove('drag-over-glow'));
+        
+        if (widget) {
+          const widgetTitle = widget.querySelector('.widget-title')?.textContent;
+          console.log('Hovering over widget:', widgetTitle);
+          setDragOverWidget(widgetTitle || null);
+          
+          // Add the glow class and ensure it persists
+          widget.classList.add('drag-over-glow');
+          
+          // Force a style recalculation to ensure the animation starts properly
+          widget.offsetHeight;
+          
+          // For calendar widgets, also check if we're over calendar elements
+          if (widgetTitle === 'Academic Calendar') {
+            console.log('Over calendar widget - ensuring persistent glow');
+          }
+        } else {
+          setDragOverWidget(null);
+        }
+        
+        lastWidget = widget;
       }
     };
     
@@ -205,7 +233,8 @@ const ProfSwissiAI: React.FC<ProfSwissiAIProps> = ({ activeWorkspace, theme }) =
     'My Classes': ['Check schedule', 'View assignments', 'Join class now', 'Contact professor'],
     'Academic Progress': ['Check ECTS', 'View transcript', 'Plan graduation', 'Course recommendations'],
     'My Dissertation': ['Continue writing', 'Check plagiarism', 'Submit chapter', 'Schedule defense'],
-    'Inbox': ['Check messages', 'Reply to prof', 'Archive old', 'Set notifications']
+    'Inbox': ['Check messages', 'Reply to prof', 'Archive old', 'Set notifications'],
+    'Academic Calendar': ['Add new event', 'View schedule', 'Set reminder', 'Check deadlines']
   };
 
   const professorGreetings = {
@@ -216,7 +245,8 @@ const ProfSwissiAI: React.FC<ProfSwissiAIProps> = ({ activeWorkspace, theme }) =
     'My Classes': "Ah, Michel, you want to talk about your classes? Your next class is on Monday, 11 August 2025 at 7 pm CEST - you are registered - how can I assist you here?",
     'Academic Progress': "Let's review your academic progress, Michel! You're doing well with 228 ECTS completed. What aspect would you like to discuss?",
     'My Dissertation': "Time to work on your dissertation, Michel! With 96,670 words and only 2% plagiarism, you're making excellent progress. What chapter shall we tackle today?",
-    'Inbox': "I see you have messages waiting, Michel. Let's help you manage your communications efficiently. What would you like to address first?"
+    'Inbox': "I see you have messages waiting, Michel. Let's help you manage your communications efficiently. What would you like to address first?",
+    'Academic Calendar': "Hello Michel! I see you're looking at your academic calendar. You have your Thesis Defense coming up on August 5th and a Research Seminar on August 8th. How can I help you manage your schedule today?"
   };
 
   // If in icon mode, show just the round icon (draggable)

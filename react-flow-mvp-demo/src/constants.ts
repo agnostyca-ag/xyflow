@@ -754,6 +754,21 @@ export const WORKSPACES = {
             links: ['View Alerts', 'Configure Topics', 'Citation Tracker', 'Author Follow']
           }
         }
+      },
+      {
+        id: 'calendar-discovery',
+        type: 'widget',
+        position: { x: 700, y: 100 },
+        style: { width: 'var(--widget-initial-width)' },
+        data: {
+          widgetType: 'calendar',
+          title: 'Academic Calendar',
+          content: {
+            upcoming: 'Thesis Defense - Aug 5',
+            events: '5 upcoming',
+            links: ['View Calendar', 'Add Event', 'Reminders', 'Sync External']
+          }
+        }
       }
     ] as Node[],
     edges: [] as Edge[],
