@@ -18,6 +18,9 @@ export * from './config/vertical.config'
 // Theme system exports
 export { ThemeManager } from './themes/ThemeManager'
 
+// AI Avatar system exports
+export * from './ai-avatar'
+
 // Core widgets (available to all verticals)
 export * from './widgets/core'
 

@@ -26,6 +26,7 @@ import ContextChatOverlay from './components/ContextChatOverlay'
 import FlyoutPanel from './components/FlyoutPanel'
 import WorkspaceSwitcher from './components/WorkspaceSwitcher'
 import ProfSwissiAI from './components/ProfSwissiAI'
+import { RobotController } from './ai-avatar/RobotController'
 import { WORKSPACES, WorkspaceId } from './constants'
 
 // Define custom node and edge types
@@ -233,6 +234,9 @@ function App() {
               style={{ backgroundColor: getBackgroundColor() }}
             />
             <Controls />
+            
+            {/* AI Avatar Robot - Temporarily disabled */}
+            {/* <RobotController /> */}
           </ReactFlow>
         </div>
         
