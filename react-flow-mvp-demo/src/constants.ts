@@ -10,7 +10,7 @@ export const WORKSPACES = {
       {
         id: 'academic-progress',
         type: 'widget',
-        position: { x: 270, y: 50 },
+        position: { x: 50, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'academic-progress',
@@ -25,7 +25,7 @@ export const WORKSPACES = {
       {
         id: 'dissertation',
         type: 'widget',
-        position: { x: 570, y: 50 },
+        position: { x: 420, y: 300 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'dissertation',
@@ -40,7 +40,7 @@ export const WORKSPACES = {
       {
         id: 'research-data',
         type: 'widget',
-        position: { x: 870, y: 50 },
+        position: { x: 420, y: 50 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'research-data',
@@ -55,7 +55,7 @@ export const WORKSPACES = {
       {
         id: 'survey-results-widget',
         type: 'widget',
-        position: { x: 50, y: 250 },
+        position: { x: 50, y: 550 },
         style: { width: 500, height: 600 },
         data: {
           widgetType: 'survey-results-widget',
@@ -69,7 +69,7 @@ export const WORKSPACES = {
       {
         id: 'chart-widget',
         type: 'widget',
-        position: { x: 580, y: 250 },
+        position: { x: 580, y: 550 },
         style: { width: 450, height: 350 },
         data: {
           widgetType: 'chart-widget',
@@ -83,7 +83,7 @@ export const WORKSPACES = {
       {
         id: 'boxplot-widget',
         type: 'widget',
-        position: { x: 1060, y: 250 },
+        position: { x: 1060, y: 550 },
         style: { width: 550, height: 500 },
         data: {
           widgetType: 'boxplot-widget',
@@ -95,7 +95,16 @@ export const WORKSPACES = {
         }
       }
     ] as Node[],
-    edges: [] as Edge[],
+    edges: [
+      {
+        id: 'research-data-to-dissertation',
+        source: 'research-data',
+        target: 'dissertation',
+        type: 'configurable',
+        sourceHandle: 'bottom-source',
+        targetHandle: 'top-target'
+      }
+    ] as Edge[],
     aiSuggestions: [
       'Add statistical correlation analysis widget',
       'Generate preliminary findings report', 
@@ -189,7 +198,7 @@ export const WORKSPACES = {
       {
         id: 'writing-tools',
         type: 'widget',
-        position: { x: 650, y: 300 },
+        position: { x: 950, y: 300 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'writing-tools',
@@ -727,31 +736,69 @@ export const WORKSPACES = {
       {
         id: 'research-papers',
         type: 'widget',
-        position: { x: 100, y: 100 },
+        position: { x: 40, y: 100 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'research-papers',
-          title: 'Research Papers',
+          title: 'My Research Papers',
           content: {
-            recent: '24 new papers',
-            trending: 'Federated AI',
-            links: ['Search Papers', 'Saved Papers', 'Recommendations', 'Alerts']
+            papers: [
+              'Federated AI in Healthcare Systems',
+              'ESG-Compliant Cloud Infrastructure',
+              'Decentralized Identity Management',
+              'Sustainable Computing Architectures',
+              'Privacy-Preserving Data Analytics'
+            ]
           }
         }
       },
       {
         id: 'new-research',
         type: 'widget',
-        position: { x: 400, y: 100 },
+        position: { x: 380, y: 100 },
         style: { width: 'var(--widget-initial-width)' },
         data: {
           widgetType: 'new-research',
           title: 'New Research Alerts',
           badge: '5',
           content: {
-            latest: 'AI Ethics in Healthcare',
-            field: 'Your research field',
-            links: ['View Alerts', 'Configure Topics', 'Citation Tracker', 'Author Follow']
+            articles: [
+              {
+                title: 'Federated Learning Privacy Mechanisms in Clinical Settings',
+                abstract: 'Novel approaches to maintaining patient privacy while enabling collaborative machine learning across hospital networks...',
+                journal: 'Nature Digital Medicine'
+              },
+              {
+                title: 'Carbon-Neutral Data Centers: Implementation Strategies',
+                abstract: 'Comprehensive analysis of renewable energy integration and efficiency optimization in modern cloud infrastructure...',
+                journal: 'IEEE Transactions on Sustainable Computing'
+              },
+              {
+                title: 'Blockchain-Based Identity Verification for Healthcare',
+                abstract: 'Zero-knowledge proof implementations for secure patient identity management across distributed healthcare systems...',
+                journal: 'Journal of Medical Internet Research'
+              },
+              {
+                title: 'Energy-Efficient Computing Architectures for AI Workloads',
+                abstract: 'Hardware and software optimizations for reducing power consumption in machine learning inference and training...',
+                journal: 'ACM Computing Surveys'
+              },
+              {
+                title: 'Differential Privacy in Large-Scale Analytics',
+                abstract: 'Mathematical frameworks for preserving individual privacy while maintaining statistical utility in big data...',
+                journal: 'Proceedings of the ACM'
+              },
+              {
+                title: 'Sustainable AI: Environmental Impact Assessment',
+                abstract: 'Lifecycle analysis of artificial intelligence systems and methodologies for carbon footprint reduction...',
+                journal: 'Nature Climate Change'
+              },
+              {
+                title: 'Homomorphic Encryption for Secure Cloud Computing',
+                abstract: 'Practical implementations of fully homomorphic encryption schemes for privacy-preserving computation in distributed...',
+                journal: 'Communications of the ACM'
+              }
+            ]
           }
         }
       },

@@ -495,7 +495,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md) 50px;
+  padding: var(--space-md) 50px calc(var(--space-md) + 4px) 50px;
   background-color: transparent;
   box-sizing: border-box;
   overflow: visible; /* Allow widgets to extend beyond header bounds */

@@ -139,18 +139,42 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
         )
       
       case 'research-papers':
+        const paperStatuses = ['Published', 'In Review', 'In Review', 'Submitted', 'Draft (5,600 words)'];
+        const statusClasses = ['published', 'in-review', 'in-review', 'submitted', 'in-progress'];
+        const paperAbstracts = [
+          'This paper explores federated learning frameworks in healthcare environments, addressing privacy concerns and regulatory...',
+          'We present a comprehensive framework for building environmentally sustainable cloud infrastructure that meets ESG...',
+          'A novel approach to decentralized identity management using blockchain technology and zero-knowledge proofs, enabling...',
+          'This research investigates sustainable computing architectures that optimize energy consumption through intelligent workload...',
+          'We develop privacy-preserving analytics techniques using homomorphic encryption and differential privacy to enable...'
+        ];
+
         return (
           <div className="widget-content">
-            <p>{data.content.recent}</p>
-            <p>Trending: <span className="bold-green">{data.content.trending}</span></p>
+            <div className="paper-list">
+              {data.content.papers.map((paper: string, index: number) => (
+                <div key={index} className="paper-item">
+                  <div className="paper-title">{paper}</div>
+                  <div className="paper-abstract">{paperAbstracts[index]}</div>
+                  <span className={`nav-link ${statusClasses[index]}`}>{paperStatuses[index]}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )
       
       case 'new-research':
         return (
           <div className="widget-content">
-            <p>Latest: {data.content.latest}</p>
-            <p>{data.content.field}</p>
+            <div className="paper-list">
+              {data.content.articles.map((article: any, index: number) => (
+                <div key={index} className="paper-item">
+                  <div className="paper-title">{article.title}</div>
+                  <div className="paper-abstract">{article.abstract}</div>
+                  <a href="#" className="journal-link">{article.journal}</a>
+                </div>
+              ))}
+            </div>
           </div>
         )
       
@@ -319,13 +343,25 @@ const WidgetNode: React.FC<NodeProps<WidgetData>> = ({ data, selected }) => {
       
       {renderContent()}
       
-      <div className="widget-links">
-        {data.content.links.map((link, idx) => (
-          <a key={idx} href="#" className="nav-link" onClick={(e) => e.preventDefault()}>
-            {link}
-          </a>
-        ))}
-      </div>
+      {data.content.links && (
+        <div className="widget-links">
+          {data.content.links.map((link, idx) => (
+            <a
+              key={idx}
+              href="#"
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault();
+                if (link === 'Open Dissertation') {
+                  window.open('http://localhost:3001', '_blank');
+                }
+              }}
+            >
+              {link}
+            </a>
+          ))}
+        </div>
+      )}
 
       <Handle 
         type="source" 
