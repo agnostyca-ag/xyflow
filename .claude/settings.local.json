@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(cp:*)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(npm run build:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(python3 -m http.server 8080)",
+      "Bash(git commit:*)",
+      "Bash(rm:*)",
+      "Bash(true)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)"
+    ],
+    "deny": []
+  }
+}
